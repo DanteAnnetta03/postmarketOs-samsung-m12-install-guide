@@ -5,12 +5,15 @@ working postmarketOS install on the Samsung Galaxy M12 (SM-M127F,
 Exynos 850 / 3830), using the patched device port developed in these
 two companion repositories:
 
-- **pmaports fork** (kernel config, device package, install docs):
-  the device port itself. See its `device/testing/device-samsung-m12/README.md`
-  for *why* every change was made, current status, known issues, and
-  the outstanding TODOs (Docker, no DRM/GPU/Wayland). This guide only
-  covers *how* to go from a clean machine to a booted phone.
-- **pmbootstrap fork** (build tool patches): a small set of fixes to
+- **[pmaports fork](https://github.com/DanteAnnetta03/pmaports)**,
+  branch `samsung-m12` (kernel config, device package, install docs):
+  the device port itself. See its
+  `device/testing/device-samsung-m12/README.md` for *why* every change
+  was made, current status, known issues, and the outstanding TODOs
+  (Docker, no DRM/GPU/Wayland). This guide only covers *how* to go
+  from a clean machine to a booted phone.
+- **[pmbootstrap fork](https://github.com/DanteAnnetta03/pmbootstrap)**,
+  branch `heimdall-dtbo` (build tool patches): a small set of fixes to
   `pmbootstrap` itself, without which the build in this guide will not
   complete. See its commit log for the exact bugs fixed.
 
@@ -82,11 +85,9 @@ sudo apt install git python3 python3-pip build-essential libusb-1.0-0-dev \
 ## Step 1 — Get the patched pmbootstrap
 
 ```sh
-git clone -b heimdall-dtbo https://gitlab.com/Dust417/pmbootstrap.git
+git clone -b heimdall-dtbo https://github.com/DanteAnnetta03/pmbootstrap.git
 cd pmbootstrap
 ```
-(Substitute your own fork's URL/branch here if you've created one from
-this base.)
 
 All `pmbootstrap` commands below are run from inside this directory,
 as `python3 -m pmbootstrap ...`.
@@ -101,13 +102,12 @@ instead of cloning the official one:
 
 ```sh
 mkdir -p ~/.local/var/pmbootstrap/cache_git
-git clone -b samsung-m12 https://gitlab.com/Dust417/pmaports.git \
+git clone -b samsung-m12 https://github.com/DanteAnnetta03/pmaports.git \
     ~/.local/var/pmbootstrap/cache_git/pmaports
 ```
-(Again, substitute your own fork's URL/branch if you have one.)
 
-Optionally add the official repo as a second remote, useful for
-pulling in upstream fixes later:
+Optionally add the official postmarketOS repo as a second remote,
+useful for pulling in upstream fixes later:
 ```sh
 cd ~/.local/var/pmbootstrap/cache_git/pmaports
 git remote add upstream https://gitlab.com/postmarketOS/pmaports.git
